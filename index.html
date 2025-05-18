@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AirBrush: Draw Like a Sorcerer</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="styles.css">
+    <!-- MediaPipe Hands -->
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+    <!-- GSAP for animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <!-- Sound effects -->
+    <audio id="clear-sound" src="https://assets.mixkit.co/active_storage/sfx/212/212-preview.mp3" preload="auto"></audio>
+    <audio id="color-change-sound" src="https://assets.mixkit.co/active_storage/sfx/3005/3005-preview.mp3" preload="auto"></audio>
+</head>
+<body>
+    <!-- Full-screen video background -->
+    <div class="fullscreen-container">
+        <video id="video-input" autoplay playsinline></video>
+        
+        <!-- Canvas layers stacked on top -->
+        <canvas id="drawing-canvas"></canvas>
+        <canvas id="hand-canvas"></canvas>
+        <canvas id="effects-canvas"></canvas>
+        
+        <!-- Floating color palette -->
+        <div class="color-palette">
+            <div class="color-option" data-color="red">
+                <div class="color-preview" id="red-preview"></div>
+                <div class="color-name">Fire</div>
+            </div>
+            <div class="color-option" data-color="blue">
+                <div class="color-preview" id="blue-preview"></div>
+                <div class="color-name">Ice</div>
+            </div>
+            <div class="color-option" data-color="green">
+                <div class="color-preview" id="green-preview"></div>
+                <div class="color-name">Nature</div>
+            </div>
+            <div class="color-option" data-color="yellow">
+                <div class="color-preview" id="yellow-preview"></div>
+                <div class="color-name">Light</div>
+            </div>
+        </div>
+        
+        <!-- UI Elements -->
+        <div class="ui-overlay">
+            <div class="app-title">
+                <h1>AirBrush: Draw Like a Sorcerer</h1>
+                <button id="toggle-guide" class="magic-button">Gesture Guide</button>
+            </div>
+            
+            <div class="current-color-indicator">
+                <div class="current-color-ring"></div>
+                <div class="current-color-name">Fire Magic</div>
+            </div>
+            
+            <div id="gesture-notification" class="hidden">
+                <span id="notification-text"></span>
+            </div>
+        </div>
+        
+        <!-- Gesture Guide (initially hidden) -->
+        <div class="gesture-guide hidden">
+            <div class="guide-header">
+                <h3>Magical Gestures</h3>
+                <button id="close-guide" class="close-button">×</button>
+            </div>
+            <ul>
+                <li>
+                    <div class="gesture-icon"><img src="https://i.ibb.co/qnXbXLC/index-finger.png" alt="Index finger" /></div>
+                    <div class="gesture-description">Extend index finger to draw</div>
+                </li>
+                <li>
+                    <div class="gesture-icon"><img src="https://i.ibb.co/4SCM2SQ/pinch.png" alt="Pinch" /></div>
+                    <div class="gesture-description">Pinch (thumb + index) to change colors</div>
+                </li>
+                <li>
+                    <div class="gesture-icon"><img src="https://i.ibb.co/fHXQHsL/fists.png" alt="Two fists" /></div>
+                    <div class="gesture-description">Hold both fists for 1.5s to clear</div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Loading overlay -->
+    <div class="loading-spinner">
+        <div class="spinner-inner">
+            <div class="spinner-circle"></div>
+            <div class="spinner-text">Summoning magic...</div>
+            <div class="developer-credit">
+                <div class="credit-text">Developed by</div>
+                <div class="developer-name">AbdulRehman</div>
+                <div class="version-info">AirBrush v1.0</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 
